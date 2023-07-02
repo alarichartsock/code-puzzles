@@ -1,3 +1,4 @@
+# Unoptimized solution:
 class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
         if needle not in haystack:
@@ -6,3 +7,7 @@ class Solution:
             for i,letter in enumerate(haystack):
                 if needle == haystack[i:len(needle)+i]:
                     return i
+# One liner
+class Solution:
+    def strStr(self, haystack : str, needle : str) -> int:
+        return haystack.find(needle)
