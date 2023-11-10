@@ -45,7 +45,7 @@ class Solution:
     def mergeAlternately(self, word1: str, word2: str) -> str:
         m = min(len(word1),len(word2))
         ret = ''
-        for idx, (c1, c2) in enumerate(zip(word1,word2)):
+        for (c1, c2) in (zip(word1,word2)):
             ret += c1 + c2
         ret += word1[m:] + word2[m:]
         return ret
