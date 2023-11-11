@@ -6,21 +6,21 @@
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         
-        queue = []
+        stack = []
         cur = head
 
         while cur is not None:
-            queue.append(cur.val)
+            stack.append(cur.val)
             cur = cur.next
 
         if len(queue) == 0:
             return None
 
-        cur = ListNode(queue.pop(-1))
+        cur = ListNode(stack.pop(-1))
         ret = cur
 
         while len(queue) > 0:
-            cur.next = ListNode(queue.pop(-1))
+            cur.next = ListNode(stack.pop(-1))
             cur = cur.next
 
         return ret
