@@ -17,7 +17,7 @@ TOTAL: 10 / 25
 ### LeetCode
 
 LeetCode 75
-TOTAL: 20 / 75
+TOTAL: 22 / 75
 ## ::::::::::...........................
 
 LeetCode 150
