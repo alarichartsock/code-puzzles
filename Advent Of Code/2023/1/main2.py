@@ -10,9 +10,9 @@ with open("input.txt", 'r',encoding="utf-8") as file:
     last = None
 
     pattern = re.compile(r'(1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine)')
-    
+
     for num, word in enumerate(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']):
-      line = re.sub(word, word + str(num+1) + word, line)
+      line = re.sub(word, word + str(num+1) + word, line)    
 
     for char in pattern.findall(line):
       if char in ['0','1','2','3','4','5','6','7','8','9']:
@@ -21,8 +21,6 @@ with open("input.txt", 'r',encoding="utf-8") as file:
         else:
           first = char
           last = char
-
-    print(line, int(first+last))
 
     ret += int(first + last)
   
