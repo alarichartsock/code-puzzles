@@ -1,27 +1,6 @@
 import re
 from colorist import Color
 
-def neighbor_wrapper(func):
-  def wrapper(arr, x, y):
-    neighbors = func(arr, x, y)
-
-    suspects = []
-    for neighbor in neighbors:
-      if neighbor[1] == '*':
-        suspects.append(neighbor[0])
-    
-    for suspect in suspects:
-      neighbors2 = func(arr, suspect[0], suspect[1])
-
-      num_numerical_neighbors = 0
-      for neighbor in neighbors2:
-        if neighbor[1].isdigit():
-          num_numerical_neighbors += 1
-        if num_numerical_neighbors >= 2:
-          return True
-  return wrapper
-
-@neighbor_wrapper
 def get_neighbors(arr, x, y):
   minx, maxx = 0, len(arr[0]) - 1
   miny, maxy = 0, len(arr) - 1
@@ -36,48 +15,37 @@ def get_neighbors(arr, x, y):
       newx, newy = x+i, y+j
 
       if (minx <= newx <= maxx) and (miny <= newy <= maxy):
-        neighbors.append(((newy,newx),arr[newy][newx]))
+        if arr[newy][newx].isdigit():
+          neighbors.append(((newx,newy),arr[newy][newx]))
 
   return neighbors
+  
+def find_closest_tuple(tuples, target):
+    # Find the tuple with the closest second element to the target
+    return min(tuples, key=lambda x: abs(x[1] - target))
 
 with open("input.txt", 'r',encoding="utf-8") as file:
   f = file.read().split('\n')
-
-  # print(check_neighbors(f,1,0))
 
   total = 0
 
   s = set()
 
   for y,row in enumerate(f):
-    num = ''
-    adjacent = False
-    for x,char in enumerate(row):
-      s.update(char)
-      if char != '.' and get_neighbors(f,x,y):
-        # print(f'{char} is adjacent')
-        adjacent = True
-      if char.isdigit():
-        num += char
-      elif adjacent and num != '':
-        print(f'{Color.RED}{num}{Color.OFF}{char}', end='')
-        total += int(num)
-
-        # Reset vals
-        num = ''
-        adjacent = False
-      else:
-        if num == '':
-          print(char, end='')
-        else:
-          print(num + char,end='')
-        num = ''
-        adjcent = False
     
-    if adjacent:
-      print(f'{Color.RED}{num}{Color.OFF}')
-      total += int(num)
-    else:
-      print(num)
+    for x,char in enumerate(row):
+      if char == '*':
+        found_nums = set()
+        for coords,neighbor in get_neighbors(f,x,y):
+          foundx = coords[0]
+          foundy = coords[1]
+          numbers_with_positions = [(match.group(), match.start()) for match in re.finditer(r'\d+', f[foundy])]
+          
+          found_nums.add(int(find_closest_tuple(numbers_with_positions, foundx)[0]))
+        
+        list_nums = list(found_nums)
 
+        if len(list_nums) == 2:
+          total += list_nums[0] * list_nums[1]
+        
   print(total)
