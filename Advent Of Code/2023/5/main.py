@@ -9,14 +9,11 @@ with open("input.txt", 'r',encoding="utf-8") as file:
   seeds = vals[0][0].split(":")[1].strip().split(" ")
   maps = [[val.strip().split(" ") for val in vals[i][1:]] for i in range(1,8)] 
 
-
   starts = [int(i) for i in seeds]
 
   print(starts)
 
   for m in maps:
-    # sortm = sorted(m, key=lambda x: int(x[1]))
-
     new = []
 
     for r in m:
